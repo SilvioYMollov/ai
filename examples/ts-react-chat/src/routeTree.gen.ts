@@ -13,6 +13,7 @@ import { Route as ThreadsRouteImport } from './routes/threads'
 import { Route as ServerFnChatRouteImport } from './routes/server-fn-chat'
 import { Route as SandboxesRouteImport } from './routes/sandboxes'
 import { Route as RealtimeRouteImport } from './routes/realtime'
+import { Route as QueueingRouteImport } from './routes/queueing'
 import { Route as McpDemoRouteImport } from './routes/mcp-demo'
 import { Route as McpAppsRouteImport } from './routes/mcp-apps'
 import { Route as Issue176ToolResultRouteImport } from './routes/issue-176-tool-result'
@@ -72,6 +73,11 @@ const SandboxesRoute = SandboxesRouteImport.update({
 const RealtimeRoute = RealtimeRouteImport.update({
   id: '/realtime',
   path: '/realtime',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QueueingRoute = QueueingRouteImport.update({
+  id: '/queueing',
+  path: '/queueing',
   getParentRoute: () => rootRouteImport,
 } as any)
 const McpDemoRoute = McpDemoRouteImport.update({
@@ -287,6 +293,7 @@ export interface FileRoutesByFullPath {
   '/issue-176-tool-result': typeof Issue176ToolResultRoute
   '/mcp-apps': typeof McpAppsRoute
   '/mcp-demo': typeof McpDemoRoute
+  '/queueing': typeof QueueingRoute
   '/realtime': typeof RealtimeRoute
   '/sandboxes': typeof SandboxesRoute
   '/server-fn-chat': typeof ServerFnChatRoute
@@ -333,6 +340,7 @@ export interface FileRoutesByTo {
   '/issue-176-tool-result': typeof Issue176ToolResultRoute
   '/mcp-apps': typeof McpAppsRoute
   '/mcp-demo': typeof McpDemoRoute
+  '/queueing': typeof QueueingRoute
   '/realtime': typeof RealtimeRoute
   '/sandboxes': typeof SandboxesRoute
   '/server-fn-chat': typeof ServerFnChatRoute
@@ -380,6 +388,7 @@ export interface FileRoutesById {
   '/issue-176-tool-result': typeof Issue176ToolResultRoute
   '/mcp-apps': typeof McpAppsRoute
   '/mcp-demo': typeof McpDemoRoute
+  '/queueing': typeof QueueingRoute
   '/realtime': typeof RealtimeRoute
   '/sandboxes': typeof SandboxesRoute
   '/server-fn-chat': typeof ServerFnChatRoute
@@ -428,6 +437,7 @@ export interface FileRouteTypes {
     | '/issue-176-tool-result'
     | '/mcp-apps'
     | '/mcp-demo'
+    | '/queueing'
     | '/realtime'
     | '/sandboxes'
     | '/server-fn-chat'
@@ -474,6 +484,7 @@ export interface FileRouteTypes {
     | '/issue-176-tool-result'
     | '/mcp-apps'
     | '/mcp-demo'
+    | '/queueing'
     | '/realtime'
     | '/sandboxes'
     | '/server-fn-chat'
@@ -520,6 +531,7 @@ export interface FileRouteTypes {
     | '/issue-176-tool-result'
     | '/mcp-apps'
     | '/mcp-demo'
+    | '/queueing'
     | '/realtime'
     | '/sandboxes'
     | '/server-fn-chat'
@@ -567,6 +579,7 @@ export interface RootRouteChildren {
   Issue176ToolResultRoute: typeof Issue176ToolResultRoute
   McpAppsRoute: typeof McpAppsRoute
   McpDemoRoute: typeof McpDemoRoute
+  QueueingRoute: typeof QueueingRoute
   RealtimeRoute: typeof RealtimeRoute
   SandboxesRoute: typeof SandboxesRoute
   ServerFnChatRoute: typeof ServerFnChatRoute
@@ -633,6 +646,13 @@ declare module '@tanstack/react-router' {
       path: '/realtime'
       fullPath: '/realtime'
       preLoaderRoute: typeof RealtimeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/queueing': {
+      id: '/queueing'
+      path: '/queueing'
+      fullPath: '/queueing'
+      preLoaderRoute: typeof QueueingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/mcp-demo': {
@@ -927,6 +947,7 @@ const rootRouteChildren: RootRouteChildren = {
   Issue176ToolResultRoute: Issue176ToolResultRoute,
   McpAppsRoute: McpAppsRoute,
   McpDemoRoute: McpDemoRoute,
+  QueueingRoute: QueueingRoute,
   RealtimeRoute: RealtimeRoute,
   SandboxesRoute: SandboxesRoute,
   ServerFnChatRoute: ServerFnChatRoute,
