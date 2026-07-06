@@ -282,6 +282,8 @@ function ChatFeature({
     addToolApprovalResponse,
     stop,
     clear,
+    queue,
+    cancelQueued,
   } = useChat({
     id: chatId,
     ...transport,
@@ -346,6 +348,8 @@ function ChatFeature({
         isLoading={isLoading}
         structuredObject={structuredObject}
         contentDeltaCount={contentDeltaCount}
+        queue={queue}
+        cancelQueued={cancelQueued}
         onSendMessage={(text) => {
           sendMessage(text)
         }}
