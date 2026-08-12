@@ -1,14 +1,18 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
+import { createQuickJSIsolateDriver } from '../src/isolate-driver'
+
 const quickJSMocks = vi.hoisted(() => {
   const contextError = new Error('context created')
-  const releaseVariant = { type: 'sync' }
+  const releaseSync = { type: 'sync' }
+  const customVariant = { type: 'custom-sync' }
 
   return {
     contextError,
-    releaseVariant,
+    releaseSync,
+    customVariant,
     getQuickJS: vi.fn(),
-    newVariant: vi.fn(() => releaseVariant),
+    newVariant: vi.fn(() => customVariant),
     newQuickJSWASMModule: vi.fn(async () => ({
       newContext: () => {
         throw contextError
@@ -21,10 +25,8 @@ vi.mock('quickjs-emscripten', () => ({
   getQuickJS: quickJSMocks.getQuickJS,
   newQuickJSWASMModule: quickJSMocks.newQuickJSWASMModule,
   newVariant: quickJSMocks.newVariant,
-  RELEASE_SYNC: quickJSMocks.releaseVariant,
+  RELEASE_SYNC: quickJSMocks.releaseSync,
 }))
-
-import { createQuickJSIsolateDriver } from '../src/isolate-driver'
 
 describe('QuickJS WASM loading', () => {
   beforeEach(() => {
@@ -62,9 +64,12 @@ describe('QuickJS WASM loading', () => {
     expect(quickJSMocks.getQuickJS).not.toHaveBeenCalled()
     expect(quickJSMocks.newVariant).toHaveBeenCalledOnce()
     expect(quickJSMocks.newVariant).toHaveBeenCalledWith(
-      quickJSMocks.releaseVariant,
+      quickJSMocks.releaseSync,
       { wasmLocation },
     )
     expect(quickJSMocks.newQuickJSWASMModule).toHaveBeenCalledOnce()
+    expect(quickJSMocks.newQuickJSWASMModule).toHaveBeenCalledWith(
+      quickJSMocks.customVariant,
+    )
   })
 })
